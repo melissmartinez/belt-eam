@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>your in!</title>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand">Welcome, {{ user.first_name }} {{ user.last_name }}!</a>
+            <div class="justify-content-end">
+                <div class='row'>
+                    <a href="/logout" class="navbar-item">Logout</a>
+                </div>
+                <div class='row'>
+                    <a href="/account/{{user.id}}/edit">Edit My Account</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <div class="container">
+            <div class='row'>
+                <div class='col'>
+                    <h3>Add a Quote!</h3>
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}        
+                    <form action="/new_message" method="post">
+                        {%csrf_token%}
+                        <div class="form-group">
+                            <p>Author</p>
+                            <textarea class="form-control" id="author" rows="1" name="author"></textarea>
+                            <p>Quote</p>
+                            <textarea class="form-control" id="textarea" rows="3" name="message"></textarea>
+                            <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                        </div>
+                        </form>
+                    </form>
+                </div>
+                <div class='col'>
+                    <h3>Quotes</h3>
+                    {%for message in all_messages%}
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">{{ author.id }}</p>
+                            <p class="card-text">{{message.text}}</p>
+                            <p>Posted by: <a href="/profile/{{message.user_related.id}}">{{message.user_related.first_name}}
+                                {{message.user_related.last_name}}</a></p>
+                            <h6 class="card-subtitle mb-2 text-muted">{{message.created_at}}</h6>
+                            {%if message.user_related.id == request.session.user_id%}
+                            <form action="/message/{{message.id}}/delete" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger mb-2">Delete</button>
+                            </form>
+                            {%endif%}
+                        </div>
+                    </div>
+                    {%endfor%}
+                </div>
+            </div>
+    </div>
+</body>
+</html>

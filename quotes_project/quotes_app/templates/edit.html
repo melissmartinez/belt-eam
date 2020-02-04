@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Edit your account</title>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand">Edit My Account</a>
+            <div class="justify-content-end">
+                <div class='row'>
+                    <a class="nav-link" href="/success">Back</a>
+                </div>
+                <div class='row'>
+                    <a href="/logout" class="navbar-item">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <br>
+    <div class="container pt-3">
+            <section class="text-danger text-center">
+                {% if messages %}
+                <ul class="list-unstyled d-inline-block">
+                    {% for message in messages %}
+                    <li class="text-left">
+                        {{ message }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </section>
+                <div class="card-body">
+                    <form action="/account/{{user.id}}/update" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input class="form-control" name="first_name" value="{{user.first_name}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input class="form-control" name="last_name" value="{{user.last_name}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input class="form-control" name="email" value="{{user.email}}">
+                        </div>
+                        <button class="btn btn-info" type="submit">Update</button>
+                    </form>
+                </div>
+            </div>
+    </div> 
+</body>
+</html>

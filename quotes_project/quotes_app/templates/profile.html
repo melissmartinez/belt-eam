@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>user Profile</title>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand">{{user.first_name}} {{user.last_name}}'s Quotes</a>
+            <div class="justify-content-end">
+                <div class='row'>
+                    <a href="/success" class="navbar-item mr-2">Back</a>
+                        <span> | </span>
+                    <a href="/logout" class="navbar-item ml-2">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <div id="card body">
+        {%for post in user.user_messaged.all%}
+        <p>{{post.text}}</p>
+        {%endfor%}
+    </div>
+</body>
+</html>
